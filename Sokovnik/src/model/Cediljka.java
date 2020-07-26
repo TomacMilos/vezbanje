@@ -1,7 +1,7 @@
 package model;
 
 public class Cediljka {
-	//razmak
+
 	private double kolicinaSoka=0;
 
 	public Cediljka() {
