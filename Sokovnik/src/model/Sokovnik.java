@@ -43,9 +43,9 @@ public class Sokovnik implements SokovnikInterface {
 		// final Long nesto = 70
 		// kad gledam kod nemam pojma sta znaci 70 i akcija manja od 100l
 		String poruka = "";
-		// prvi if se pise voce.isCrvljiva(), ne treba ==true, jasno mi je da ce uci tu
-		// ako je true
-		if (vocka.isCrvljiva() == false) {
+
+		//prvi if se pise voce.isCrvljiva(), ne treba ==true, jasno mi je da ce uci tu ako je true
+		if(vocka.isCrvljiva()==false) { // if !vocka.isCrvljiva
 			// sve u ovom ifu izdvoj u metodu tipa dodajVocku ili kako vec
 			dodaj(vocka);
 			if ((rand.nextInt(100 - 0 + 1) + 0) < 70) {
