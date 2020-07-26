@@ -34,7 +34,7 @@ public class Application {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
 		// Reading data using readLine
-		String name = reader.readLine();
+		String name = reader.readLine(); //name -> meniNumber ili tako nesto ?
 
 
 		//ovo nije dobra praksa, ako je name null, dobices null pointer, treba pisati prvo konstantu
@@ -48,6 +48,7 @@ public class Application {
 
 			//2.equals......
 		} else if (name.equals("2")) {
+			// ovo neka bude metoda cedjenje kao sto si gore uradio metod dodavanje
 			float tezina = 0;
 			//sokivnig.getPosudaZavoce().getVocke().forEach(vocka -> {})
 			for (Jabuka jabuka : sokovnik.getPosudaZavoce().getVocke()) {
@@ -59,6 +60,7 @@ public class Application {
 			sokovnik.cedjenje(tezina);
 			glavniMeni();
 		} else if (name.equals("3")) {
+			//ovo isto u metod getKolicinaVocaUKorpi
 			float tezina = 0;
 			System.out.println("---------------------------------------------------------");
 			for (Jabuka jabuka : sokovnik.getPosudaZavoce().getVocke()) {
