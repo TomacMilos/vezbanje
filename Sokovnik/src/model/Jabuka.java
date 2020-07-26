@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Jabuka extends Voce {
 	private boolean crvljiva;
-	public Random rand = new Random(); //da li random treba da bude deo Jabuke ?
+
 
 	public Jabuka(String naziv, int tezina, boolean crvljiva) {
 		super(naziv, tezina);
@@ -17,6 +17,7 @@ public class Jabuka extends Voce {
 
 	public void setCrvljiva() {
 		//random moze ovde
+		Random rand = new Random(); //da li random treba da bude deo Jabuke ?
 		if (rand.nextInt(100 - 0 + 1) + 0 > 20) {
 			this.crvljiva = false;
 		} else {

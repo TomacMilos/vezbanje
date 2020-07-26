@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream.GetField;
+import java.util.List;
 import java.util.Random;
 
 import exeptionHandling.exeptionHandler;
@@ -13,6 +14,9 @@ import model.Sokovnik;
 
 public class Application {
 	public static Sokovnik sokovnik = Sokovnik.getInstance();
+	private static int do100 = 100;
+	private static int od0 =0;
+	private static int percentage20 =20;
 
 	public static void main(String[] args) throws IOException, exeptionHandler {
 
@@ -22,14 +26,7 @@ public class Application {
 
 	public static void glavniMeni() throws IOException, exeptionHandler {
 		//ovi svi printevi idu u metodu posebnu tipa printMeni()
-		System.out.println("Dobrodosli u sokovnik");
-		System.out.println("Izaberite opciju :");
-		System.out.println("1) Dodavanje voca");
-		System.out.println("2) Cedjenje");
-		System.out.println("3) Kolicina voca u posudi");
-		System.out.println("4) Kolicina napravljenog soka");
-		System.out.println("--------------------------");
-
+		printMain();
 		// Enter data using BufferReader
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -39,7 +36,7 @@ public class Application {
 
 		//ovo nije dobra praksa, ako je name null, dobices null pointer, treba pisati prvo konstantu
 		//("1").equals(name) tako izbegavas hendlanje null pountera
-		if (name.equals("1")) {
+		if (("1").equals(name)) {
 			try {
 				dodavanje();
 			} catch (exeptionHandler e) {
@@ -47,30 +44,13 @@ public class Application {
 			}
 
 			//2.equals......
-		} else if (name.equals("2")) {
+		} else if (("2").equals(name)) {
 			// ovo neka bude metoda cedjenje kao sto si gore uradio metod dodavanje
-			float tezina = 0;
-			//sokivnig.getPosudaZavoce().getVocke().forEach(vocka -> {})
-			for (Jabuka jabuka : sokovnik.getPosudaZavoce().getVocke()) {
-				System.out.println(jabuka.getNaziv() + "=" + jabuka.getTezina());
-
-				tezina = tezina + jabuka.getTezina();
-			}
-
-			sokovnik.cedjenje(tezina);
-			glavniMeni();
+			cedjenje();
 		} else if (name.equals("3")) {
 			//ovo isto u metod getKolicinaVocaUKorpi
-			float tezina = 0;
-			System.out.println("---------------------------------------------------------");
-			for (Jabuka jabuka : sokovnik.getPosudaZavoce().getVocke()) {
-				System.out.println(jabuka.getNaziv() + "=" + jabuka.getTezina());
-
-				tezina = tezina + jabuka.getTezina();
-			}
-			System.out.println("---------------------------------------------------------");
-			System.out.println("Sum= " + tezina + "kg");
-			glavniMeni();
+			getVoceUKorpi();
+			
 		} else if (name.equals("4")) {
 			System.out.println("Ukupna kolicina napravljenog soka = "
 					+ String.valueOf(sokovnik.getCediljka().getKolicinaVoca()) + "l");
@@ -81,7 +61,41 @@ public class Application {
 			glavniMeni();
 		}
 	}
+	public static void printMain() {
+		System.out.println("Dobrodosli u sokovnik");
+		System.out.println("Izaberite opciju :");
+		System.out.println("1) Dodavanje voca");
+		System.out.println("2) Cedjenje");
+		System.out.println("3) Kolicina voca u posudi");
+		System.out.println("4) Kolicina napravljenog soka");
+		System.out.println("--------------------------");
 
+	}
+	public static void cedjenje() throws IOException, exeptionHandler {
+		float tezina = 0;
+		//sokivnig.getPosudaZavoce().getVocke().forEach(vocka -> {})
+		for (Jabuka jabuka : sokovnik.getPosudaZavoce().getVocke()) {
+			System.out.println(jabuka.getNaziv() + "=" + jabuka.getTezina());
+
+			tezina = tezina + jabuka.getTezina();
+		}
+
+		sokovnik.cedjenje(tezina);
+		glavniMeni();
+	}
+
+	public static void getVoceUKorpi() throws IOException, exeptionHandler {
+		float tezina = 0;
+		System.out.println("---------------------------------------------------------");
+		for (Jabuka jabuka : sokovnik.getPosudaZavoce().getVocke()) {
+			System.out.println(jabuka.getNaziv() + "=" + jabuka.getTezina());
+
+			tezina = tezina + jabuka.getTezina();
+		}
+		System.out.println("---------------------------------------------------------");
+		System.out.println("Sum= " + tezina + "kg");
+		glavniMeni();
+	}
 	public static void dodavanje() throws IOException, exeptionHandler {
 		//printevi u metod poseban
 		System.out.println("--------------------------");
@@ -96,14 +110,15 @@ public class Application {
 
 		boolean crvljiva;
 		Random rand = new Random();
-		if ((rand.nextInt((100 - 0 + 1) + 0) <= 20)) {//opet sve izbaci u konstante, nemam pojma sta tebi znaci 20
+		if ((rand.nextInt((do100 - od0 + 1) + od0) <= percentage20)) {//opet sve izbaci u konstante, nemam pojma sta tebi znaci 20
 			crvljiva = true;
 		} else {
 			crvljiva = false;
 		}
-		if (tezina != "x") { //sta ovaj if radi ? !tezina.equals('x') poredis stringove
+		if (!tezina.equals("x")) { //sta ovaj if radi ? !tezina.equals('x') poredis stringove
 			int tezina1 = Integer.valueOf(tezina);
-			if (tezina1 == 1 || tezina1 == 2 || tezina1 == 3) { //opet konstante..
+			int[] dozvoljeneTezine= {1,2,3};
+			if (tezina1 == dozvoljeneTezine[0] || tezina1 ==dozvoljeneTezine[1] || tezina1 ==dozvoljeneTezine[2]) { //opet konstante..
 				Jabuka jabuka = new Jabuka(naziv, tezina1, crvljiva);
 				sokovnik.dodavanjeVoca(jabuka);
 				glavniMeni();
