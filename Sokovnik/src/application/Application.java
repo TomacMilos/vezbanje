@@ -7,7 +7,7 @@ import java.io.ObjectInputStream.GetField;
 import java.util.List;
 import java.util.Random;
 
-import exeptionHandling.exeptionHandler;
+import exeptionHandling.prepunaKorpa;
 import model.Jabuka;
 import model.PosudaZaVoce;
 import model.Sokovnik;
@@ -18,13 +18,13 @@ public class Application {
 	private static int od0 =0;
 	private static int percentage20 =20;
 
-	public static void main(String[] args) throws IOException, exeptionHandler {
+	public static void main(String[] args) throws IOException, prepunaKorpa {
 
 		glavniMeni();
 
 	}
 
-	public static void glavniMeni() throws IOException, exeptionHandler {
+	public static void glavniMeni() throws IOException, prepunaKorpa {
 		//ovi svi printevi idu u metodu posebnu tipa printMeni()
 		printMain();
 		// Enter data using BufferReader
@@ -39,7 +39,7 @@ public class Application {
 		if (("1").equals(name)) {
 			try {
 				dodavanje();
-			} catch (exeptionHandler e) {
+			} catch (prepunaKorpa e) {
 				System.out.println(e);
 			}
 
@@ -71,7 +71,7 @@ public class Application {
 		System.out.println("--------------------------");
 
 	}
-	public static void cedjenje() throws IOException, exeptionHandler {
+	public static void cedjenje() throws IOException, prepunaKorpa {
 		float tezina = 0;
 		//sokivnig.getPosudaZavoce().getVocke().forEach(vocka -> {})
 		for (Jabuka jabuka : sokovnik.getPosudaZavoce().getVocke()) {
@@ -84,7 +84,7 @@ public class Application {
 		glavniMeni();
 	}
 
-	public static void getVoceUKorpi() throws IOException, exeptionHandler {
+	public static void getVoceUKorpi() throws IOException, prepunaKorpa {
 		float tezina = 0;
 		System.out.println("---------------------------------------------------------");
 		for (Jabuka jabuka : sokovnik.getPosudaZavoce().getVocke()) {
@@ -96,12 +96,10 @@ public class Application {
 		System.out.println("Sum= " + tezina + "kg");
 		glavniMeni();
 	}
-	public static void dodavanje() throws IOException, exeptionHandler {
+	public static void dodavanje() throws IOException, prepunaKorpa {
 		//printevi u metod poseban
-		System.out.println("--------------------------");
-		System.out.println("x) Za povratak u glavni meni ");
-		System.out.println("Dodavanje jabuke u korpu");
-		System.out.println("Uneti tezinu jabuke (tezina moze biti u rasponu 1-3)");
+		printeviDodavanje();
+		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		String tezina = reader.readLine(); // da li mozes odmah da castujes u long ili int ?, sta ce ti tezina kao string ?
 		System.out.println("Uneti naziv jabuke");
@@ -130,5 +128,11 @@ public class Application {
 			System.out.println("pogresna vrednost!!!!!!!!!!!!!!!!!!!!!!!!!");
 			dodavanje();
 		}
+	}
+	public static void printeviDodavanje() {
+		System.out.println("--------------------------");
+		System.out.println("x) Za povratak u glavni meni ");
+		System.out.println("Dodavanje jabuke u korpu");
+		System.out.println("Uneti tezinu jabuke (tezina moze biti u rasponu 1-3)");
 	}
 }

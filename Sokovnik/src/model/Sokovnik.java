@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Random;
 
-import exeptionHandling.exeptionHandler;
+import exeptionHandling.prepunaKorpa;
 import services.SokovnikInterface;
 
 public class Sokovnik implements SokovnikInterface {
@@ -33,30 +33,32 @@ public class Sokovnik implements SokovnikInterface {
 	}
 
 	@Override
-	//ovaj parametar Jabuka voce, da li je intuitivan ?
+	// ovaj parametar Jabuka voce, da li je intuitivan ?
 	// vise smisla ima da se zove vocka ?
-	public void dodavanjeVoca(Jabuka vocka) throws exeptionHandler {
-		//ovo mi se ne svidja, razbij sve ovo u metode, i imas u intelij desni klik na projekat pa reformat code
-		//da ti sve lepo formatira
-		//druga stvar, u kode sve konstante tipa 100,0 , 70 izbaci u private static final Long nesto = 70
-		//kad gledam kod nemam pojma sta znaci 70 i akcija manja od 100l
+	public void dodavanjeVoca(Jabuka vocka) throws prepunaKorpa {
+		// ovo mi se ne svidja, razbij sve ovo u metode, i imas u intelij desni klik na
+		// projekat pa reformat code
+		// da ti sve lepo formatira
+		// druga stvar, u kode sve konstante tipa 100,0 , 70 izbaci u private static
+		// final Long nesto = 70
+		// kad gledam kod nemam pojma sta znaci 70 i akcija manja od 100l
 		String poruka = "";
-		//prvi if se pise voce.isCrvljiva(), ne treba ==true, jasno mi je da ce uci tu ako je true
-		if(vocka.isCrvljiva()==false) {
+		// prvi if se pise voce.isCrvljiva(), ne treba ==true, jasno mi je da ce uci tu
+		// ako je true
+		if (vocka.isCrvljiva() == false) {
 			// sve u ovom ifu izdvoj u metodu tipa dodajVocku ili kako vec
 			dodaj(vocka);
-		if ((rand.nextInt(100 - 0 + 1) + 0) < 70) {
-			if (akcija < 100) {
+			if ((rand.nextInt(100 - 0 + 1) + 0) < 70) {
+				if (akcija < 100) {
 
-			} else{
-				poruka = "Prevelik broj akcija nad sokovnikom";
+				} else {
+					poruka = "Prevelik broj akcija nad sokovnikom";
+				}
+			} else {
+				poruka = "Neuspesno dodavanje";
+
 			}
 		} else {
-			poruka = "Neuspesno dodavanje";
-
-		}
-		}
-		else {
 			System.out.println("Jabuka je crvljiva!!!!!!!!!!!!!!!!!!!!");
 		}
 		System.out.println(ukunaTezina);
@@ -75,10 +77,6 @@ public class Sokovnik implements SokovnikInterface {
 	public void cedjenje(float kolicina) {
 		// ovi uvuceni iffovi su isto losa praksa
 
-		String poruka = ""; // ne svidja mi se ovo, ne treba ti, tamo gde treba da printas, printaj string
-							// koji vec treba
-		// a ne treba da ga inicijalizujes
-
 		if ((rand.nextInt(100 - 0 + 1) + 0) > 30) {// opet izdvoj u konstante sve
 			if (akcija < 100) {
 				akcija++;
@@ -86,48 +84,44 @@ public class Sokovnik implements SokovnikInterface {
 
 				double kolicinaSoka = (kolicinaDouble * 0.4);
 
-				poruka = "Uspesno cedjenje";// dodaj razmake, da taj string na ispisu bude lepo formatiran
-				System.out.println(poruka + String.valueOf(kolicinaSoka));
+				System.out.println("Uspesno cedjenje " + String.valueOf(kolicinaSoka));
 
 				cediljka.setKolicinaVoca(cediljka.getKolicinaVoca() + kolicinaSoka);
 				posudaZavoce.setVocke(new ArrayList<Jabuka>());
 			} else {
-				poruka = "Prevelik broj akcija nad sokovnikom";
-				System.out.println(poruka);
+				;
+				System.out.println("Prevelik broj akcija nad sokovnikom");
 			}
 		} else {
 //opet razmak
-			poruka = "Neuspesno cedjenje";
-			System.out.println(poruka);
+			System.out.println("Neuspesno cedjenje");
 		}
-		// izbrisi ovo, koristi intellij reformac code
 	}
-	public void dodaj(Jabuka vocka) throws exeptionHandler {
-		String poruka="";
+
+	public void dodaj(Jabuka vocka) throws prepunaKorpa {
+		String poruka = "";
 		akcija++;
 		ArrayList<Jabuka> vocke = posudaZavoce.getVocke();
 		float tezina = 0;
 		/*
-		vocke.forEach.(vocka -> {
-			tvoja logika neka
+		 * vocke.forEach.(vocka -> { tvoja logika neka }
+		 */
+		for (Jabuka voce : vocke) {// koristi java stream
+			// tezina = tezina + voce2.getTezine();
+			// ovako treba da se pise, druga stvar imena promenljivih tipa voce1 ili voce2
+			// su losa praksa, navedi smislenije nekako
+			tezina = tezina + voce.getTezina();
 		}
-		*/
-		for (Jabuka voce2 : vocke) {// koristi java stream
-			//tezina = tezina + voce2.getTezine();
-			//ovako treba da se pise, druga stvar imena promenljivih tipa voce1 ili voce2 su losa praksa, navedi smislenije nekako
-			tezina =tezina+voce2.getTezina();
-		}
-		
-		
+
 		if ((this.ukunaTezina + vocka.getTezina()) < posudaZavoce.getMaxTezina()) {
-			System.out.println(this.ukunaTezina + vocka.getTezina()+"ovoooo");
-			this.ukunaTezina=ukunaTezina+vocka.getTezina(); //jako je nepregledno kad je sve slepljeno
+			System.out.println(this.ukunaTezina + vocka.getTezina() + "ovoooo");
+			this.ukunaTezina = ukunaTezina + vocka.getTezina(); // jako je nepregledno kad je sve slepljeno
 			vocke.add(vocka);
 			poruka = "Uspesno ubaceno voce";
-	
+
 		} else {
 			System.out.println("cz");
-			throw new exeptionHandler("Tezina bla bla");
+			throw new prepunaKorpa("Tezina bla bla");
 
 		}
 	}
