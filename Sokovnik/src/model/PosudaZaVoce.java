@@ -8,7 +8,7 @@ public class PosudaZaVoce {
 	private ArrayList<Jabuka> vocke= new ArrayList<Jabuka>();
 	
 
-//razmake ukloni svuda
+	//razmake ukloni svuda
 	public PosudaZaVoce() {
 	}
 

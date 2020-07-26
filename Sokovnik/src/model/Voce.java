@@ -1,6 +1,7 @@
 package model;
 
 public class Voce {
+	//ovo je ok
 	private String naziv;
 	private float tezina;
 
