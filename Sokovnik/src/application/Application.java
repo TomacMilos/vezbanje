@@ -20,49 +20,52 @@ public class Application {
 	private static int ZERO = 0;
 	private static int PERCENTAGE_20 = 20;
 	private static int ONE = 1;
-	private static final String one = "1";
-	private static String backDugme = "x";
+	private static final String ONESTRING = "1";
+	private static String BACKDUGME = "x";
+	private static String OPTION2 = "2";
+	private static String OPTION3 = "3";
+	private static String OPTION4 = "4";
 	private static final ArrayList<Integer> DOZVOLJENE_TEZINE = new ArrayList<Integer>();
 
 	public static void main(String[] args) throws IOException, prepunaKorpa {
-
+		dodavanjeVrednosti();
+		glavniMeni();
+	}
+	public static void dodavanjeVrednosti() {
 		DOZVOLJENE_TEZINE.add(1);
 		DOZVOLJENE_TEZINE.add(2);
 		DOZVOLJENE_TEZINE.add(3);
-
-		glavniMeni();
-
 	}
-
-	public static void glavniMeni() throws IOException, prepunaKorpa {
-		printMain();
+	public static String getOpcija() throws IOException {
 		// Enter data using BufferReader
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		// Reading data using readLine
 		String opcija = reader.readLine();
+		return opcija;
+	}
 
-		if ((one).equals(opcija)) {
+	public static void glavniMeni() throws IOException, prepunaKorpa {
+		printMain();
+		String opcija = getOpcija();
+		if (ONESTRING.equals(opcija)) {
 			try {
 				dodavanje();
 			} catch (prepunaKorpa e) {
 				System.out.println(e);
 			}
-		} else if (("2").equals(opcija)) {
+		} else if (OPTION2.equals(opcija)) {
 			cedjenje();
-		} else if (opcija.equals("3")) {
+		} else if (OPTION3.equals(opcija)) {
 			getVoceUKorpi();
-
-		} else if (opcija.equals("4")) {
-
+		} else if (OPTION4.equals(opcija)) {
 			System.out.println("Ukupna kolicina napravljenog soka = " + sokovnik.getCediljka().getKolicinaVoca() + "l");
 			glavniMeni();
-
 		} else {
 			System.out.println("Pogresna opcija!!!!!!!!!!");
 			glavniMeni();
 		}
 	}
-
+ 
 	private static void printMain() {
 		System.out.println("Dobrodosli u sokovnik");
 		System.out.println("Izaberite opciju :");
@@ -129,14 +132,14 @@ public class Application {
 		} else {
 			crvljiva = false;
 		}
-		if (!tezina.equals(backDugme)) {
+		if (!tezina.equals(BACKDUGME)) {
 			int tezina1 = Integer.valueOf(tezina);
 			if (DOZVOLJENE_TEZINE.contains(tezina1)) {
 				Jabuka jabuka = new Jabuka(naziv, tezina1, crvljiva);
 				sokovnik.dodavanjeVocke(jabuka);
 				glavniMeni();
 			}
-		} else if (backDugme.equals(tezina)) {// x.equals(tezina)
+		} else if (BACKDUGME.equals(tezina)) {
 			glavniMeni();
 		} else {
 			System.out.println("pogresna vrednost!!!!!!!!!!!!!!!!!!!!!!!!!");
