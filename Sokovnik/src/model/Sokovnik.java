@@ -2,21 +2,24 @@ package model;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import exeptionHandling.prepunaKorpa;
 import services.SokovnikInterface;
 
 public class Sokovnik implements SokovnikInterface {
+	public static int ONE_HUNDRED_ONE = 101;
+	public static int PERCENTAGE_70 = 70;
+	public static int PERCENTAGE_30 = 30;
+	public static int PERCENTAGE_20 = 20;
+	public static double PERCENTAGE_40 = 0.4;
 	private PosudaZaVoce posudaZavoce = new PosudaZaVoce();
 	private Cediljka cediljka = new Cediljka();
 	private int akcija = 0;
 	private static Sokovnik instance = null;
 	public float ukunaTezinaVocaUPosudi;
-	private static int ONE_HUNDRED_ONE = 100;
-	private static int PERCENTAGE_70 = 70;
-	private static int PERCENTAGE_30 = 30;
-	private static double NUMBER04 = 0.4;
 	private static DecimalFormat df = new DecimalFormat("0.00");
 
 	public static Sokovnik getInstance() {
@@ -36,7 +39,7 @@ public class Sokovnik implements SokovnikInterface {
 
 	@Override
 	public void dodavanjeVocke(Jabuka vocka) throws prepunaKorpa {
-		if (vocka.isCrvljiva()==false) {
+		if (!vocka.isCrvljiva()) {
 			Random rand = new Random();
 			if (rand.nextInt(ONE_HUNDRED_ONE) < PERCENTAGE_70) {
 				if (akcija < 100) {
@@ -47,7 +50,7 @@ public class Sokovnik implements SokovnikInterface {
 			} else {
 				System.out.println("Neuspesno dodavanje");
 			}
-		}else if (vocka.isCrvljiva()) {
+		} else if (vocka.isCrvljiva()) {
 			System.out.println("Jabuka je crvljiva!");
 		}
 		System.out.println(ukunaTezinaVocaUPosudi);
@@ -62,33 +65,39 @@ public class Sokovnik implements SokovnikInterface {
 	}
 
 	@Override
-	public void cedjenje(float kolicina) {
-		Random rand = new Random();
-		if (rand.nextInt(ONE_HUNDRED_ONE) > PERCENTAGE_30) {
-			if (akcija < ONE_HUNDRED_ONE) {
-				akcija++;
-				double kolicinaSoka =(kolicina * NUMBER04);
-				System.out.println("Uspesno cedjenje: "+ df.format(kolicinaSoka) );
-				cediljka.setKolicinaVoca(cediljka.getKolicinaVoca() + kolicinaSoka);
-				posudaZavoce.setVocke(new ArrayList<Jabuka>());
-			} else {
-				System.out.println("Prevelik broj akcija nad sokovnikom");
-			}
+	public void cedjenje(float tezinaVoca) {
+		if (mozeCedjenje() && brojAkcijaManjiOdSto()) {
+			akcija++;
+			double kolicinaSoka = tezinaVoca * PERCENTAGE_40;
+			System.out.println("Uspesno cedjenje: " + df.format(kolicinaSoka));
+			cediljka.setKolicinaSoka(cediljka.getKolicinaSoka() + kolicinaSoka);
+			posudaZavoce.setVocke(Collections.emptyList());
 		} else {
-			System.out.println("Neuspesno cedjenje");
+			System.out.println("Neuspesno cedjenje ili je dostignut maksimalan broj akcija");
 		}
+	}
+
+	private boolean brojAkcijaManjiOdSto() {
+		return akcija < ONE_HUNDRED_ONE;
+	}
+
+	private boolean mozeCedjenje() {
+		Random rand = new Random();
+		return rand.nextInt(ONE_HUNDRED_ONE) < PERCENTAGE_30;
 	}
 
 	public void dodaj(Jabuka vocka) throws prepunaKorpa {
 		akcija++;
-		ArrayList<Jabuka> vocke = posudaZavoce.getVocke();
-		if ((this.ukunaTezinaVocaUPosudi + vocka.getTezina()) < posudaZavoce.getMaxTezina()) { // ukunaTezina ????
-			this.ukunaTezinaVocaUPosudi = ukunaTezinaVocaUPosudi + vocka.getTezina();
+		List<Jabuka> vocke = posudaZavoce.getVocke();
+		if (moguceDodavanjeJabuke(vocka)) {
+			this.ukunaTezinaVocaUPosudi += vocka.getTezina();
 			vocke.add(vocka);
-
 		} else {
-			System.out.println("cz");
-			throw new prepunaKorpa("Tezina bla bla");
+			throw new prepunaKorpa("Korpa je prepuna nije moguce dodati vocku");
 		}
+	}
+
+	private boolean moguceDodavanjeJabuke(Jabuka vocka) {
+		return this.ukunaTezinaVocaUPosudi + vocka.getTezina() < posudaZavoce.getMaxTezina();
 	}
 }
