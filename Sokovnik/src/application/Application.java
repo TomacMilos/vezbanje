@@ -86,7 +86,7 @@ public class Application {
 		System.out.println("---------------------------------------------------------");
 		final TezinaUtil fw = new TezinaUtil();
 		sokovnik.getPosudaZavoce().getVocke().forEach(jabuka -> {
-			System.out.format(jabuka.getNaziv() + "= %f", jabuka.getTezina());
+			System.out.format(jabuka.getNaziv() + "= %f \n", jabuka.getTezina());
 			fw.setValue(fw.value + jabuka.getTezina());
 		});
 		System.out.println("---------------------------------------------------------");
