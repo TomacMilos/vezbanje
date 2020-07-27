@@ -18,6 +18,7 @@ public class Application {
 	private static String OPTION2 = "2";
 	private static String OPTION3 = "3";
 	private static String OPTION4 = "4";
+	private static int ZERO=0;
 	private static final ArrayList<Integer> DOZVOLJENE_TEZINE = new ArrayList<Integer>();
 	private static Long tezina = (long) 0;
 
@@ -76,7 +77,7 @@ public class Application {
 			tezina = (long) (tezina + vocka.getTezina());
 		});
 		sokovnik.cedjenje(tezina);
-		tezina = (long) 0;
+		tezina = (long) ZERO;
 		glavniMeni();
 	}
 
@@ -89,7 +90,7 @@ public class Application {
 		System.out.println("---------------------------------------------------------");
 
 		System.out.format("Sum= %d%nkg \n", tezina);
-		tezina = (long) 0;
+		tezina = (long) ZERO;
 		glavniMeni();
 	}
 
@@ -113,20 +114,20 @@ public class Application {
 		String tezina = ucitajTezinu();
 
 		if (!BACKDUGME.equals(tezina)) {
-			int tezina1 = 0;
+			int tezinaUnos = ZERO;
 			boolean izbor;
 			try {
-				tezina1 = Integer.parseInt(tezina);
+				tezinaUnos = Integer.parseInt(tezina);
 				izbor = true;
 			} catch (NumberFormatException e) {
 				izbor = false;
 			}
 
-			if (!DOZVOLJENE_TEZINE.contains(tezina1) || izbor == false) {
+			if (!DOZVOLJENE_TEZINE.contains(tezinaUnos) || izbor == false) {
 				System.out.println("Pogresna vrednost");
 				dodavanje();
-			} else if (DOZVOLJENE_TEZINE.contains(tezina1)) {
-				Jabuka jabuka = new Jabuka(naziv, tezina1);
+			} else if (DOZVOLJENE_TEZINE.contains(tezinaUnos)) {
+				Jabuka jabuka = new Jabuka(naziv, tezinaUnos);
 				jabuka.setCrvljiva();
 				sokovnik.dodavanjeVocke(jabuka);
 				glavniMeni();
