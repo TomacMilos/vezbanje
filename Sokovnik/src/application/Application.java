@@ -16,7 +16,7 @@ import model.Sokovnik;
 import util.TezinaUtil;
 
 public class Application {
-	
+
 	public static Sokovnik sokovnik = Sokovnik.getInstance();
 	private static int ONE_HUNDRED = 100;
 	private static int ZERO = 0;
@@ -28,20 +28,24 @@ public class Application {
 	private static String OPTION3 = "3";
 	private static String OPTION4 = "4";
 	private static final ArrayList<Integer> DOZVOLJENE_TEZINE = new ArrayList<Integer>();
+
 	public static void main(String[] args) throws IOException, prepunaKorpa {
 		dodavanjeVrednosti();
 		glavniMeni();
 	}
+
 	public static void dodavanjeVrednosti() {
 		DOZVOLJENE_TEZINE.add(1);
 		DOZVOLJENE_TEZINE.add(2);
 		DOZVOLJENE_TEZINE.add(3);
 	}
+
 	public static String getOpcija() throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		String opcija = reader.readLine();
 		return opcija;
 	}
+
 	public static void glavniMeni() throws IOException, prepunaKorpa {
 		printMain();
 		String opcija = getOpcija();
@@ -63,6 +67,7 @@ public class Application {
 			glavniMeni();
 		}
 	}
+
 	private static void printMain() {
 		System.out.println("Dobrodosli u sokovnik");
 		System.out.println("Izaberite opciju :");
@@ -72,6 +77,7 @@ public class Application {
 		System.out.println("4) Kolicina napravljenog soka");
 		System.out.println("--------------------------");
 	}
+
 	public static void cedjenje() throws IOException, prepunaKorpa {
 		final TezinaUtil fw = new TezinaUtil();
 		sokovnik.getPosudaZavoce().getVocke().forEach(vocka -> {
@@ -82,6 +88,7 @@ public class Application {
 		fw.setValue(0);
 		glavniMeni();
 	}
+
 	public static void getVoceUKorpi() throws IOException, prepunaKorpa {
 		System.out.println("---------------------------------------------------------");
 		final TezinaUtil fw = new TezinaUtil();
@@ -94,41 +101,46 @@ public class Application {
 		fw.setValue(0);
 		glavniMeni();
 	}
+
 	private static String ucitajNaziv() throws IOException {
 		System.out.println("Uneti naziv jabuke");
 		BufferedReader reader1 = new BufferedReader(new InputStreamReader(System.in));
 		String naziv = reader1.readLine();
 		return naziv;
 	}
+
 	private static String ucitajTezinu() throws IOException {
 		System.out.println("Uneti tezinu jabuke (tezina moze biti u rasponu 1-3)");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		String tezina = reader.readLine();
 		return tezina;
 	}
+
 	public static void dodavanje() throws IOException, prepunaKorpa {
 		printeviDodavanje();
 		String naziv = ucitajNaziv();
 		String tezina = ucitajTezinu();
-		boolean crvljiva;
-		Random rand = new Random();
-		if ((rand.nextInt((ONE_HUNDRED - ZERO + ONE) + ZERO) <= PERCENTAGE_20)) {
-			crvljiva = true;
-		} else {
-			crvljiva = false;
-		}
+
 		if (!BACKDUGME.equals(tezina)) {
-			int tezina1 = Integer.valueOf(tezina);
-			if (DOZVOLJENE_TEZINE.contains(tezina1)) {
-				Jabuka jabuka = new Jabuka(naziv, tezina1, crvljiva);
+			int tezina1 = 0;
+			boolean izbor;
+			try {  
+			    tezina1=Integer.parseInt(tezina);  
+			    izbor= true;
+			  } catch(NumberFormatException e){  
+			    izbor= false;  
+			  }
+			
+			if (!DOZVOLJENE_TEZINE.contains(tezina1)||izbor==false) {
+				System.out.println("Pogresna vrednost");
+				dodavanje();
+			} else if (DOZVOLJENE_TEZINE.contains(tezina1)) {
+				Jabuka jabuka = new Jabuka(naziv, tezina1);
+				jabuka.setCrvljiva();
 				sokovnik.dodavanjeVocke(jabuka);
 				glavniMeni();
 			}
-			else {
-				System.out.println("Pogresna vrednost");
-				dodavanje();
-			}
-			
+
 		} else if (BACKDUGME.equals(tezina)) {
 			glavniMeni();
 		} else {
@@ -136,6 +148,7 @@ public class Application {
 			dodavanje();
 		}
 	}
+
 	public static void printeviDodavanje() {
 		System.out.println("--------------------------");
 		System.out.println("x) Za povratak u glavni meni ");

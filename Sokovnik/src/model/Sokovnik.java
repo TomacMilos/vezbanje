@@ -33,17 +33,18 @@ public class Sokovnik implements SokovnikInterface {
 	@Override
 	public void dodavanjeVocke(Jabuka vocka) throws prepunaKorpa {
 		if (vocka.isCrvljiva() == false) {
-			dodaj(vocka);
+		
 			Random rand = new Random();
 			if ((rand.nextInt(ONE_HUNDRED - ZERO + ONE) + ZERO) < PERCENTAGE_70) {
 				if (akcija < 100) {
+					dodaj(vocka);
 				} else {
 					System.out.println("Prevelik broj akcija nad sokovnikom");
 				}
-			} else {
+			}else {
 				System.out.println("Neuspesno dodavanje");
 			}
-		} else {
+		} else if(vocka.isCrvljiva()==true){
 			System.out.println("Jabuka je crvljiva!!!!!!!!!!!!!!!!!!!!");
 		}
 		System.out.println(ukunaTezina);
@@ -60,8 +61,8 @@ public class Sokovnik implements SokovnikInterface {
 		if ((rand.nextInt(ONE_HUNDRED - ZERO + ONE) + ZERO) > PERCENTAGE_30) {
 			if (akcija < ONE_HUNDRED) {
 				akcija++;
-				double kolicinaSoka = kolicina * PERCENTAGE40;
-				System.out.format("Uspesno cedjenje %d", kolicinaSoka);
+				float kolicinaSoka =(float)(kolicina * PERCENTAGE40);
+				System.out.format("Uspesno cedjenje %f", kolicinaSoka);
 				cediljka.setKolicinaVoca(cediljka.getKolicinaVoca() + kolicinaSoka);
 				posudaZavoce.setVocke(new ArrayList<Jabuka>());
 			} else {
