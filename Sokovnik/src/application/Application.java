@@ -3,25 +3,16 @@ package application;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
 
 import exeptionHandling.prepunaKorpa;
 import model.Jabuka;
-import model.PosudaZaVoce;
 import model.Sokovnik;
 import util.TezinaUtil;
 
 public class Application {
 
 	public static Sokovnik sokovnik = Sokovnik.getInstance();
-	private static int ONE_HUNDRED = 100;
-	private static int ZERO = 0;
-	private static int PERCENTAGE_20 = 20;
-	private static int ONE = 1;
 	private static final String ONESTRING = "1";
 	private static String BACKDUGME = "x";
 	private static String OPTION2 = "2";
