@@ -16,10 +16,10 @@ public class Jabuka extends Voce {
 		int ONE = 1;
 		int PERCENTAGE_20 = 20;
 		Random rand = new Random();
-		if (rand.nextInt(ONE_HUNDRED - ZERO + ONE) + ZERO > PERCENTAGE_20) {
-			this.crvljiva = false;
-		} else {
+		if (rand.nextInt(ONE_HUNDRED - ZERO + ONE) + ZERO < PERCENTAGE_20) {
 			this.crvljiva = true;
+		} else {
+			this.crvljiva = false;
 		}
 	}
 }

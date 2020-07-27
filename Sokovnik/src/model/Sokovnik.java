@@ -1,5 +1,6 @@
 package model;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -17,23 +18,27 @@ public class Sokovnik implements SokovnikInterface {
 	private static int PERCENTAGE_70 = 70;
 	private static int PERCENTAGE_30 = 30;
 	private static int ONE = 1;
-	private static double PERCENTAGE40= 0.4;
+	private static double NUMBER04 = 0.4;
+	private static DecimalFormat df = new DecimalFormat("0.00");
+
 	public static Sokovnik getInstance() {
 		if (instance == null) {
 			instance = new Sokovnik();
 		}
 		return instance;
 	}
+
 	public PosudaZaVoce getPosudaZavoce() {
 		return posudaZavoce;
 	}
+
 	public Cediljka getCediljka() {
 		return cediljka;
 	}
+
 	@Override
 	public void dodavanjeVocke(Jabuka vocka) throws prepunaKorpa {
-		if (vocka.isCrvljiva() == false) {
-		
+		if (vocka.isCrvljiva()==false) {
 			Random rand = new Random();
 			if ((rand.nextInt(ONE_HUNDRED - ZERO + ONE) + ZERO) < PERCENTAGE_70) {
 				if (akcija < 100) {
@@ -41,28 +46,31 @@ public class Sokovnik implements SokovnikInterface {
 				} else {
 					System.out.println("Prevelik broj akcija nad sokovnikom");
 				}
-			}else {
+			} else {
 				System.out.println("Neuspesno dodavanje");
 			}
-		} else if(vocka.isCrvljiva()==true){
-			System.out.println("Jabuka je crvljiva!!!!!!!!!!!!!!!!!!!!");
+		}else if (vocka.isCrvljiva()) {
+			System.out.println("Jabuka je crvljiva!");
 		}
 		System.out.println(ukunaTezina);
 	}
+
 	public float getUkunaTezina() {
 		return ukunaTezina;
 	}
+
 	public void setUkunaTezina(float ukunaTezina) {
 		this.ukunaTezina = ukunaTezina;
 	}
+
 	@Override
 	public void cedjenje(float kolicina) {
 		Random rand = new Random();
 		if ((rand.nextInt(ONE_HUNDRED - ZERO + ONE) + ZERO) > PERCENTAGE_30) {
 			if (akcija < ONE_HUNDRED) {
 				akcija++;
-				float kolicinaSoka =(float)(kolicina * PERCENTAGE40);
-				System.out.format("Uspesno cedjenje %f", kolicinaSoka);
+				double kolicinaSoka =(kolicina * NUMBER04);
+				System.out.println("Uspesno cedjenje: "+ df.format(kolicinaSoka) );
 				cediljka.setKolicinaVoca(cediljka.getKolicinaVoca() + kolicinaSoka);
 				posudaZavoce.setVocke(new ArrayList<Jabuka>());
 			} else {
@@ -72,6 +80,7 @@ public class Sokovnik implements SokovnikInterface {
 			System.out.println("Neuspesno cedjenje");
 		}
 	}
+
 	public void dodaj(Jabuka vocka) throws prepunaKorpa {
 		akcija++;
 		ArrayList<Jabuka> vocke = posudaZavoce.getVocke();

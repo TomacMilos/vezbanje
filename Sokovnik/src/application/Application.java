@@ -3,12 +3,12 @@ package application;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import exeptionHandling.prepunaKorpa;
 import model.Jabuka;
 import model.Sokovnik;
-import util.TezinaUtil;
 
 public class Application {
 
@@ -19,6 +19,7 @@ public class Application {
 	private static String OPTION3 = "3";
 	private static String OPTION4 = "4";
 	private static final ArrayList<Integer> DOZVOLJENE_TEZINE = new ArrayList<Integer>();
+	private static Long tezina = (long) 0;
 
 	public static void main(String[] args) throws IOException, prepunaKorpa {
 		dodavanjeVrednosti();
@@ -49,9 +50,9 @@ public class Application {
 		} else if (OPTION2.equals(opcija)) {
 			cedjenje();
 		} else if (OPTION3.equals(opcija)) {
-			getVoceUKorpi();
+			getTezinaVocaUPosudi();
 		} else if (OPTION4.equals(opcija)) {
-			System.out.format("Ukupna kolicina napravljenog soka= %fl \n", sokovnik.getCediljka().getKolicinaVoca());
+			System.out.format("Ukupna kolicina napravljenog soka= %.2fl \n", sokovnik.getCediljka().getKolicinaVoca());
 			glavniMeni();
 		} else {
 			System.out.println("Pogresna opcija!!!!!!!!!!");
@@ -70,26 +71,25 @@ public class Application {
 	}
 
 	public static void cedjenje() throws IOException, prepunaKorpa {
-		final TezinaUtil fw = new TezinaUtil();
 		sokovnik.getPosudaZavoce().getVocke().forEach(vocka -> {
-			System.out.format(vocka.getNaziv() + "= %f", vocka.getTezina());
-			fw.setValue(fw.value + vocka.getTezina());
+			System.out.format(vocka.getNaziv() + "= %f\n", vocka.getTezina());
+			tezina = (long) (tezina + vocka.getTezina());
 		});
-		sokovnik.cedjenje(fw.getValue());
-		fw.setValue(0);
+		sokovnik.cedjenje(tezina);
+		tezina = (long) 0;
 		glavniMeni();
 	}
 
-	public static void getVoceUKorpi() throws IOException, prepunaKorpa {
+	public static void getTezinaVocaUPosudi() throws IOException, prepunaKorpa {
 		System.out.println("---------------------------------------------------------");
-		final TezinaUtil fw = new TezinaUtil();
 		sokovnik.getPosudaZavoce().getVocke().forEach(jabuka -> {
 			System.out.format(jabuka.getNaziv() + "= %f \n", jabuka.getTezina());
-			fw.setValue(fw.value + jabuka.getTezina());
+			tezina = (long) (tezina + jabuka.getTezina());
 		});
 		System.out.println("---------------------------------------------------------");
-		System.out.format("Sum= %fkg \n", fw.getValue());
-		fw.setValue(0);
+
+		System.out.format("Sum= %d%nkg \n", tezina);
+		tezina = (long) 0;
 		glavniMeni();
 	}
 
@@ -115,14 +115,14 @@ public class Application {
 		if (!BACKDUGME.equals(tezina)) {
 			int tezina1 = 0;
 			boolean izbor;
-			try {  
-			    tezina1=Integer.parseInt(tezina);  
-			    izbor= true;
-			  } catch(NumberFormatException e){  
-			    izbor= false;  
-			  }
-			
-			if (!DOZVOLJENE_TEZINE.contains(tezina1)||izbor==false) {
+			try {
+				tezina1 = Integer.parseInt(tezina);
+				izbor = true;
+			} catch (NumberFormatException e) {
+				izbor = false;
+			}
+
+			if (!DOZVOLJENE_TEZINE.contains(tezina1) || izbor == false) {
 				System.out.println("Pogresna vrednost");
 				dodavanje();
 			} else if (DOZVOLJENE_TEZINE.contains(tezina1)) {
