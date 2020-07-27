@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Random;
 
 import exeptionHandling.prepunaKorpa;
 import model.Jabuka;
@@ -18,9 +19,9 @@ public class Application {
 	private static String OPTION2 = "2";
 	private static String OPTION3 = "3";
 	private static String OPTION4 = "4";
-	private static int ZERO=0;
+	private static int ZERO = 0;
 	private static final ArrayList<Integer> DOZVOLJENE_TEZINE = new ArrayList<Integer>();
-	private static Long tezina = (long) 0;
+	private static long tezina = 0;
 
 	public static void main(String[] args) throws IOException, prepunaKorpa {
 		dodavanjeVrednosti();
@@ -40,6 +41,7 @@ public class Application {
 	}
 
 	public static void glavniMeni() throws IOException, prepunaKorpa {
+
 		printMain();
 		String opcija = getOpcija();
 		if (ONESTRING.equals(opcija)) {
@@ -90,7 +92,7 @@ public class Application {
 		System.out.println("---------------------------------------------------------");
 
 		System.out.format("Sum= %d%nkg \n", tezina);
-		tezina = (long) ZERO;
+		tezina = ZERO;
 		glavniMeni();
 	}
 
@@ -115,15 +117,14 @@ public class Application {
 
 		if (!BACKDUGME.equals(tezina)) {
 			int tezinaUnos = ZERO;
-			boolean izbor;
 			try {
 				tezinaUnos = Integer.parseInt(tezina);
-				izbor = true;
 			} catch (NumberFormatException e) {
-				izbor = false;
+				System.out.println("Pogresna vrednost");
+				dodavanje();
 			}
 
-			if (!DOZVOLJENE_TEZINE.contains(tezinaUnos) || izbor == false) {
+			if (!DOZVOLJENE_TEZINE.contains(tezinaUnos)) {
 				System.out.println("Pogresna vrednost");
 				dodavanje();
 			} else if (DOZVOLJENE_TEZINE.contains(tezinaUnos)) {

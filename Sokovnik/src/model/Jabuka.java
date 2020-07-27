@@ -11,12 +11,10 @@ public class Jabuka extends Voce {
 		return crvljiva;
 	}
 	public void setCrvljiva() {
-		int ZERO = 0;
-		int ONE_HUNDRED = 100;
-		int ONE = 1;
+		int ONE_HUNDRED_ONE = 101;
 		int PERCENTAGE_20 = 20;
 		Random rand = new Random();
-		if (rand.nextInt(ONE_HUNDRED - ZERO + ONE) + ZERO < PERCENTAGE_20) {
+		if (rand.nextInt(ONE_HUNDRED_ONE)< PERCENTAGE_20) {
 			this.crvljiva = true;
 		} else {
 			this.crvljiva = false;

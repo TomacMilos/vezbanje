@@ -12,12 +12,10 @@ public class Sokovnik implements SokovnikInterface {
 	private Cediljka cediljka = new Cediljka();
 	private int akcija = 0;
 	private static Sokovnik instance = null;
-	public float ukunaTezina;
-	private static int ONE_HUNDRED = 100;
-	private static int ZERO = 0;
+	public float ukunaTezinaVocaUPosudi;
+	private static int ONE_HUNDRED_ONE = 100;
 	private static int PERCENTAGE_70 = 70;
 	private static int PERCENTAGE_30 = 30;
-	private static int ONE = 1;
 	private static double NUMBER04 = 0.4;
 	private static DecimalFormat df = new DecimalFormat("0.00");
 
@@ -40,7 +38,7 @@ public class Sokovnik implements SokovnikInterface {
 	public void dodavanjeVocke(Jabuka vocka) throws prepunaKorpa {
 		if (vocka.isCrvljiva()==false) {
 			Random rand = new Random();
-			if ((rand.nextInt(ONE_HUNDRED - ZERO + ONE) + ZERO) < PERCENTAGE_70) {
+			if (rand.nextInt(ONE_HUNDRED_ONE) < PERCENTAGE_70) {
 				if (akcija < 100) {
 					dodaj(vocka);
 				} else {
@@ -52,22 +50,22 @@ public class Sokovnik implements SokovnikInterface {
 		}else if (vocka.isCrvljiva()) {
 			System.out.println("Jabuka je crvljiva!");
 		}
-		System.out.println(ukunaTezina);
+		System.out.println(ukunaTezinaVocaUPosudi);
 	}
 
 	public float getUkunaTezina() {
-		return ukunaTezina;
+		return ukunaTezinaVocaUPosudi;
 	}
 
 	public void setUkunaTezina(float ukunaTezina) {
-		this.ukunaTezina = ukunaTezina;
+		this.ukunaTezinaVocaUPosudi = ukunaTezina;
 	}
 
 	@Override
 	public void cedjenje(float kolicina) {
 		Random rand = new Random();
-		if ((rand.nextInt(ONE_HUNDRED - ZERO + ONE) + ZERO) > PERCENTAGE_30) {
-			if (akcija < ONE_HUNDRED) {
+		if (rand.nextInt(ONE_HUNDRED_ONE) > PERCENTAGE_30) {
+			if (akcija < ONE_HUNDRED_ONE) {
 				akcija++;
 				double kolicinaSoka =(kolicina * NUMBER04);
 				System.out.println("Uspesno cedjenje: "+ df.format(kolicinaSoka) );
@@ -84,8 +82,8 @@ public class Sokovnik implements SokovnikInterface {
 	public void dodaj(Jabuka vocka) throws prepunaKorpa {
 		akcija++;
 		ArrayList<Jabuka> vocke = posudaZavoce.getVocke();
-		if ((this.ukunaTezina + vocka.getTezina()) < posudaZavoce.getMaxTezina()) { // ukunaTezina ????
-			this.ukunaTezina = ukunaTezina + vocka.getTezina();
+		if ((this.ukunaTezinaVocaUPosudi + vocka.getTezina()) < posudaZavoce.getMaxTezina()) { // ukunaTezina ????
+			this.ukunaTezinaVocaUPosudi = ukunaTezinaVocaUPosudi + vocka.getTezina();
 			vocke.add(vocka);
 
 		} else {
