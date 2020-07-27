@@ -5,17 +5,13 @@ import java.util.Random;
 public class Jabuka extends Voce {
 
 	private boolean crvljiva;
-
-
 	public Jabuka(String naziv, int tezina, boolean crvljiva) {
 		super(naziv, tezina);
 		this.crvljiva = crvljiva;
 	}
-
 	public boolean isCrvljiva() {
 		return crvljiva;
 	}
-
 	public void setCrvljiva() {
 		Random rand = new Random(); 
 		if (rand.nextInt(100 - 0 + 1) + 0 > 20) {
@@ -23,6 +19,5 @@ public class Jabuka extends Voce {
 		} else {
 			this.crvljiva = true;
 		}
-
 	}
 }

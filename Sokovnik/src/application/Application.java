@@ -13,8 +13,10 @@ import exeptionHandling.prepunaKorpa;
 import model.Jabuka;
 import model.PosudaZaVoce;
 import model.Sokovnik;
+import util.TezinaUtil;
 
 public class Application {
+	
 	public static Sokovnik sokovnik = Sokovnik.getInstance();
 	private static int ONE_HUNDRED = 100;
 	private static int ZERO = 0;
@@ -26,7 +28,6 @@ public class Application {
 	private static String OPTION3 = "3";
 	private static String OPTION4 = "4";
 	private static final ArrayList<Integer> DOZVOLJENE_TEZINE = new ArrayList<Integer>();
-
 	public static void main(String[] args) throws IOException, prepunaKorpa {
 		dodavanjeVrednosti();
 		glavniMeni();
@@ -37,13 +38,10 @@ public class Application {
 		DOZVOLJENE_TEZINE.add(3);
 	}
 	public static String getOpcija() throws IOException {
-		// Enter data using BufferReader
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		// Reading data using readLine
 		String opcija = reader.readLine();
 		return opcija;
 	}
-
 	public static void glavniMeni() throws IOException, prepunaKorpa {
 		printMain();
 		String opcija = getOpcija();
@@ -58,14 +56,13 @@ public class Application {
 		} else if (OPTION3.equals(opcija)) {
 			getVoceUKorpi();
 		} else if (OPTION4.equals(opcija)) {
-			System.out.println("Ukupna kolicina napravljenog soka = " + sokovnik.getCediljka().getKolicinaVoca() + "l");
+			System.out.format("Ukupna kolicina napravljenog soka= %fl \n", sokovnik.getCediljka().getKolicinaVoca());
 			glavniMeni();
 		} else {
 			System.out.println("Pogresna opcija!!!!!!!!!!");
 			glavniMeni();
 		}
 	}
- 
 	private static void printMain() {
 		System.out.println("Dobrodosli u sokovnik");
 		System.out.println("Izaberite opciju :");
@@ -75,52 +72,40 @@ public class Application {
 		System.out.println("4) Kolicina napravljenog soka");
 		System.out.println("--------------------------");
 	}
-
 	public static void cedjenje() throws IOException, prepunaKorpa {
-		float tezina = 0;
-		// sokivnig.getPosudaZavoce().getVocke().forEach(vocka -> {})
-		// ovo gore ti je java 8 feature, to nauci, bar za for petlju kako se koristi
-		// to ti je veliki plus, moze i ovako da prodje, al onako ce videti da si
-		// ozbiljan baja
-		// znaci java streams izguglaj
-		for (Jabuka jabuka : sokovnik.getPosudaZavoce().getVocke()) {
-			System.out.println(jabuka.getNaziv() + "=" + jabuka.getTezina());
-
-			tezina = tezina + jabuka.getTezina();
-		}
-
-		sokovnik.cedjenje(tezina);
+		final TezinaUtil fw = new TezinaUtil();
+		sokovnik.getPosudaZavoce().getVocke().forEach(vocka -> {
+			System.out.format(vocka.getNaziv() + "= %f", vocka.getTezina());
+			fw.setValue(fw.value + vocka.getTezina());
+		});
+		sokovnik.cedjenje(fw.getValue());
+		fw.setValue(0);
 		glavniMeni();
 	}
-
 	public static void getVoceUKorpi() throws IOException, prepunaKorpa {
-		float tezina = 0;
 		System.out.println("---------------------------------------------------------");
-		for (Jabuka jabuka : sokovnik.getPosudaZavoce().getVocke()) {
-			System.out.println(jabuka.getNaziv() + "=" + jabuka.getTezina());
-
-			tezina = tezina + jabuka.getTezina();
-		}
+		final TezinaUtil fw = new TezinaUtil();
+		sokovnik.getPosudaZavoce().getVocke().forEach(jabuka -> {
+			System.out.format(jabuka.getNaziv() + "= %f", jabuka.getTezina());
+			fw.setValue(fw.value + jabuka.getTezina());
+		});
 		System.out.println("---------------------------------------------------------");
-		System.out.println("Sum= " + tezina + "kg");
+		System.out.format("Sum= %fkg \n", fw.getValue());
+		fw.setValue(0);
 		glavniMeni();
 	}
-
 	private static String ucitajNaziv() throws IOException {
 		System.out.println("Uneti naziv jabuke");
 		BufferedReader reader1 = new BufferedReader(new InputStreamReader(System.in));
 		String naziv = reader1.readLine();
 		return naziv;
 	}
-
 	private static String ucitajTezinu() throws IOException {
 		System.out.println("Uneti tezinu jabuke (tezina moze biti u rasponu 1-3)");
-
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		String tezina = reader.readLine();
 		return tezina;
 	}
-
 	public static void dodavanje() throws IOException, prepunaKorpa {
 		printeviDodavanje();
 		String naziv = ucitajNaziv();
@@ -132,13 +117,18 @@ public class Application {
 		} else {
 			crvljiva = false;
 		}
-		if (!tezina.equals(BACKDUGME)) {
+		if (!BACKDUGME.equals(tezina)) {
 			int tezina1 = Integer.valueOf(tezina);
 			if (DOZVOLJENE_TEZINE.contains(tezina1)) {
 				Jabuka jabuka = new Jabuka(naziv, tezina1, crvljiva);
 				sokovnik.dodavanjeVocke(jabuka);
 				glavniMeni();
 			}
+			else {
+				System.out.println("Pogresna vrednost");
+				dodavanje();
+			}
+			
 		} else if (BACKDUGME.equals(tezina)) {
 			glavniMeni();
 		} else {
@@ -146,7 +136,6 @@ public class Application {
 			dodavanje();
 		}
 	}
-
 	public static void printeviDodavanje() {
 		System.out.println("--------------------------");
 		System.out.println("x) Za povratak u glavni meni ");
